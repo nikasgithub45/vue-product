@@ -1,22 +1,23 @@
 <template>
   <div class="container">
     <v-app id="inspire">
+       <router-view />
       <Header @currentProduct = "onCurrentProduct" />
       <ProductTable :products="products"/>
     </v-app>
   </div>
 </template>
-
 <script>
-import Header from "./components/Header.vue";
-import ProductTable from "./components/ProductTable.vue";
+
+
 export default {
-  name: "App",
-  components: {
-    Header,
-    ProductTable,
+  icons: {
+    iconfont: "mdi",
   },
+  props: ["products"],
+
   data: () => ({
+    snackbar:false,
     dialog: false,
     products: [],
   }),
@@ -24,9 +25,7 @@ export default {
     onCurrentProduct(currentProduct){
       this.products.push(currentProduct)
     }
-  }
-
-  
+  } 
 };
 </script>
 <style>
