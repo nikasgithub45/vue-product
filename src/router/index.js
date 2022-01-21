@@ -8,7 +8,7 @@ const routes = [
   {
     path: '/product-page',
     name: 'Productpage',
-    component: Productpage
+    component: Productpage,
   },
   {
     path: '/Content',

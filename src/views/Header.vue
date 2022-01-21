@@ -1,3 +1,4 @@
+
 <template>
   <v-container>
     <v-app-bar color="deep-purple accent-4" dark>
@@ -97,12 +98,28 @@
         </v-tabs>
       </template>
     </v-app-bar>
+    <v-snackbar
+        v-model="snackbar"
+        :timeout="timeout"
+      >
+        {{ text }}
+  
+        <template v-slot:action="{ attrs }">
+          <v-btn
+            color="blue"
+            text
+            v-bind="attrs"
+            @click="snackbar = false"
+          >
+            Close
+          </v-btn>
+        </template>
+      </v-snackbar>
   </v-container>
 </template>
 
 <script>
 import { v4 as uuidv4 } from "uuid";
-
 const defaultProduct = () => {
   return  {
       picture: "",
@@ -115,21 +132,24 @@ const defaultProduct = () => {
       id: null,
     }
 };
-
 export default {
+  name: "Header",
   data: () => ({
+    snackbar: false,
+    text: 'item created succsesfuly',
+    timeout: 2000,
     dialog: false,
     currentProduct: defaultProduct()
   }),
   methods: {
     saveItem() {
+      this.snackbar = true;
       this.currentProduct.id = uuidv4();
       this.$emit("currentProduct", this.currentProduct);
       this.currentProduct = defaultProduct()
       this.dialog = false;
     },
     editing(){
-
     }
   },
 };
