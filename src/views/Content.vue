@@ -1,8 +1,8 @@
 <template>
   <div id="App">
     
-    <Header @currentProduct="onCurrentProduct" />
-    <ProductTable :products="products" />
+    <Header  />
+    <ProductTable  />
   </div>
 </template>
 <script>
@@ -17,12 +17,12 @@ export default {
     //
     openProductPage:false,
     dialog: false,
-    products: [],
+    // products: [],
   }),
   methods: {
-    onCurrentProduct(currentProduct) {
-      this.products.push(currentProduct);
-    },
+    // onCurrentProduct(currentProduct) {
+    //   this.products.push(currentProduct);
+    // },
   },
 };
 </script>

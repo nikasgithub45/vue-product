@@ -1,4 +1,3 @@
-
 <template>
   <v-container>
     <v-data-table
@@ -67,7 +66,7 @@
                 <v-btn color="blue darken-1" text @click="closeDelete"
                   >Cancel</v-btn
                 >
-                <v-btn color="blue darken-1" text @click="deleteItemConfirm"
+                <v-btn color="blue darken-1" text @click="deleteItemConfirm" 
                   >OK</v-btn
                 >
                 <v-spacer></v-spacer>
@@ -79,11 +78,12 @@
       <template v-slot:item.actions="{ item }">
         <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
         <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
-        <v-icon @click="$router.push('/product-page')" large> mdi-chevron-left </v-icon>
+        <v-icon @click="renderItem(item)" > mdi-chevron-left </v-icon>
       </template>
     </v-data-table>
     <v-snackbar v-model="snackbar" :timeout="timeout">
       {{ text }}
+
 
       <template v-slot:action="{ attrs }">
         <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
@@ -94,17 +94,16 @@
   </v-container>
 </template>
 <script>
-import "@mdi/font/css/materialdesignicons.css"; // Ensure you are using css-loader
-import Vue from "vue";
-import Vuetify from "vuetify/lib";
-Vue.use(Vuetify);
+import {mapActions,mapGetters} from 'vuex'
+
 export default {
   name: "ProductTable",
   icons: {
     iconfont: "mdi",
   },
-  props: ["products"],
+  // props: ["products"],
   data: () => ({
+    
     snackbar: false,
     text: "New item was deleted",
     timeout: 2000,
@@ -141,6 +140,7 @@ export default {
     },
   }),
   computed: {
+    ...mapGetters(['products']),
     formTitle() {
       return this.editedIndex === -1 ? "New Item" : "Edit Item";
     },
@@ -153,24 +153,31 @@ export default {
       val || this.closeDelete();
     },
   },
-  created() {
-    this.initialize();
-  },
   methods: {
-    initialize() {},
+
+    ...mapActions([
+       'removeProduct',
+    ]),
+    renderItem(){
+      this.$router.push('/product-page');
+    },
     editItem(item) {
       this.editedIndex = this.products.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
-    deleteItem(item) {
-      this.editedIndex = this.products.indexOf(item);
-      this.editedItem = Object.assign({}, item);
+    deleteItem() {
+
+      // this.editedItem = Object.assign({}, item);
       this.dialogDelete = true;
     },
-    deleteItemConfirm() {
+    
+    deleteItemConfirm(item) {
+      console.log(this.products)
+      const removeIndex = this.products.findIndex(product => product.id === item.id);
+      this.removeProduct(removeIndex)
       this.snackbar = true;
-      this.products.splice(this.editedIndex, 1);
+      // this.products.splice(this.editedIndex, 1);
       this.closeDelete();
     },
     close() {

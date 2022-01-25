@@ -6,7 +6,7 @@
         <v-layout column>
           <v-row cols="3">
             <v-card width="2800px" height="200px">
-                
+                {{ this.products.indexOf(item)}}
             </v-card>
             <v-card width="190px" height="200px">
               There should be picture
@@ -27,9 +27,9 @@
 </template>
 <script>
 import Header from "./Header.vue";
-
+import {mapGetters} from 'vuex';
 export default {
-  props:["products"],
+  // props:["products"],
   components: {
     Header,
   },
@@ -37,7 +37,13 @@ export default {
     dialog: false,
   }),
   mounted(){
-     console.log(this.products)
-  }
+     console.log(this.Products)
+  },
+  computed: {
+        ...mapGetters(['products']),
+    productData(){
+      return this.products;
+    }
+  },
 };
 </script>

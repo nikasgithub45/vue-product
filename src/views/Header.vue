@@ -120,6 +120,8 @@
 
 <script>
 import { v4 as uuidv4 } from "uuid";
+import { mapActions } from 'vuex'
+
 const defaultProduct = () => {
   return  {
       picture: "",
@@ -135,6 +137,7 @@ const defaultProduct = () => {
 export default {
   name: "Header",
   data: () => ({
+    idOfproduct:'',
     snackbar: false,
     text: 'item created succsesfuly',
     timeout: 2000,
@@ -142,15 +145,17 @@ export default {
     currentProduct: defaultProduct()
   }),
   methods: {
+      ...mapActions([
+      'setProducts',
+    ]),
     saveItem() {
       this.snackbar = true;
       this.currentProduct.id = uuidv4();
-      this.$emit("currentProduct", this.currentProduct);
+      // this.$emit("currentProduct", this.currentProduct);
+      this.setProducts(this.currentProduct)
       this.currentProduct = defaultProduct()
-      this.dialog = false;
+      this.dialog = false
     },
-    editing(){
-    }
   },
 };
 </script>
