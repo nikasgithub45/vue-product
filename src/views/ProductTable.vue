@@ -6,7 +6,8 @@
       sort-by="calories"
       class="elevation-1"
     >
-      <template v-slot:top>
+    <template v-slot:item.actions="{ item }">
+      <template >
         <v-toolbar flat>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
@@ -46,14 +47,17 @@
                   </v-row>
                 </v-container>
               </v-card-text>
+                 <!-- <template v-slot:item.action="{ item }"> -->
 
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="blue darken-1" text @click="close">
                   Cancel
                 </v-btn>
-                <v-btn color="blue darken-1" text @click="save"> Save </v-btn>
+                <v-btn color="blue darken-1" text @click="save(item.id)"> Save </v-btn>
               </v-card-actions>
+                               <!-- </template> -->
+
             </v-card>
           </v-dialog>
           <v-dialog v-model="dialogDelete" max-width="500px">
@@ -66,7 +70,7 @@
                 <v-btn color="blue darken-1" text @click="closeDelete"
                   >Cancel</v-btn
                 >
-                <v-btn color="blue darken-1" text @click="deleteItemConfirm" 
+                <v-btn color="blue darken-1" text @click="deleteItemConfirm"
                   >OK</v-btn
                 >
                 <v-spacer></v-spacer>
@@ -75,16 +79,15 @@
           </v-dialog>
         </v-toolbar>
       </template>
-      <template v-slot:item.actions="{ item }">
+      <template>
         <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
         <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
-        <v-icon @click="renderItem(item)" > mdi-chevron-left </v-icon>
+        <v-icon @click="renderItem(item)"> mdi-chevron-left </v-icon>
+      </template>
       </template>
     </v-data-table>
     <v-snackbar v-model="snackbar" :timeout="timeout">
       {{ text }}
-
-
       <template v-slot:action="{ attrs }">
         <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
           Close
@@ -94,16 +97,14 @@
   </v-container>
 </template>
 <script>
-import {mapActions,mapGetters} from 'vuex'
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "ProductTable",
   icons: {
     iconfont: "mdi",
   },
-  // props: ["products"],
   data: () => ({
-    
     snackbar: false,
     text: "New item was deleted",
     timeout: 2000,
@@ -130,6 +131,7 @@ export default {
       category: "",
       available: "",
       type: "",
+      id: null
     },
     defaultItem: {
       name: "",
@@ -140,7 +142,7 @@ export default {
     },
   }),
   computed: {
-    ...mapGetters(['products']),
+    ...mapGetters(["products"]),
     formTitle() {
       return this.editedIndex === -1 ? "New Item" : "Edit Item";
     },
@@ -154,52 +156,41 @@ export default {
     },
   },
   methods: {
-
-    ...mapActions([
-       'removeProduct',
-    ]),
-    renderItem(){
-      this.$router.push('/product-page');
+    ...mapActions(["removeProduct", "setCurrentProduct", "editCurrentProduct","saveEditedProduct"]),
+    renderItem(item) {
+      console.log(item, "dkjdjdjdjkdjdj");
+      this.setCurrentProduct(item);
+      this.$router.push("/product-page");
     },
     editItem(item) {
-      this.editedIndex = this.products.indexOf(item);
-      this.editedItem = Object.assign({}, item);
       this.dialog = true;
+      // this.editCurrentProduct(item);
+      console.log(item);
     },
     deleteItem() {
-
-      // this.editedItem = Object.assign({}, item);
       this.dialogDelete = true;
     },
-    
+
     deleteItemConfirm(item) {
-      console.log(this.products)
-      const removeIndex = this.products.findIndex(product => product.id === item.id);
-      this.removeProduct(removeIndex)
+      console.log(this.products);
+      const removeIndex = this.products.findIndex(
+        (product) => product.id === item.id
+      );
+      this.removeProduct(removeIndex);
       this.snackbar = true;
-      // this.products.splice(this.editedIndex, 1);
       this.closeDelete();
     },
     close() {
       this.dialog = false;
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      });
     },
     closeDelete() {
       this.dialogDelete = false;
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      });
     },
-    save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.products[this.editedIndex], this.editedItem);
-      } else {
-        this.products.push(this.editedItem);
-      }
+    save(id) {
+      this.editedItem.id = id
+            console.log( this.editedItem, ' this.editCurrentProduct44444444')
+
+      this.editCurrentProduct(this.editedItem);
       this.close();
     },
   },

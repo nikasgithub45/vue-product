@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Productpage from '../views/Productpage.vue'
 import Content from '../views/Content.vue'
+import login from "../views/login.vue"
 Vue.use(VueRouter)
 
 const routes = [
@@ -14,7 +15,13 @@ const routes = [
     path: '/',
     name:'Content',
     component:Content
+  },
+  {
+    path: '/login',
+    name:'login',
+    component:login
   }
+  
 ]
 
 const router = new VueRouter({
