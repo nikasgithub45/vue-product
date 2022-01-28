@@ -142,7 +142,7 @@ export default {
     },
   }),
   computed: {
-    ...mapGetters(["products"]),
+    ...mapGetters(["products","user","userInfo"]),
     formTitle() {
       return this.editedIndex === -1 ? "New Item" : "Edit Item";
     },

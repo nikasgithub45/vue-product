@@ -11,8 +11,10 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   // namespaced: true,
   state: {
-    userInfo:[],
-    user:null,
+    dialog:"",
+    userInfo: [],
+    userInfoRender: [],
+    user: null,
     products: [],
     currentProduct: null,
     editedItem: null,
@@ -20,12 +22,25 @@ export default new Vuex.Store({
   getters: {
     currentProduct: state => state.currentProduct,
     products: state => state.products,
+    user: state => state.user,
+    userInfo: state => state.userInfo
   },
   mutations: {
-    setUser:(state,user) =>{
-      console.log(state.user,"incel")
-      state.userInfo.push(user)
+    setUser: (state, user) => {
+      state.dialog = false;
+      console.log(state.user)
+      state.userInfo.push(user);
+      state.userInfo = state.userInfoRender;
+      console.log(state.userInfo)
+    //   state.userInfoRender.forEach(function (arrayItem) {
+    //      if(arrayItem.name != state.userInfo.nameCheck){
+    //        state.dialog = true
+    //      }else{
+    //          state.userInfoRender.splice(0, state.userInfoRender.length - 1);
+    //      }
+    // });
     },
+    
     setProducts: (state, product) => {
       state.products.push(product)
     },
@@ -42,7 +57,7 @@ export default new Vuex.Store({
         mpn,
         category,
         availeble,
-        type, 
+        type,
         id
       } = currentProduct
       const indexCurrentProduct = state.products.findIndex((product) => product.id === id)
@@ -67,7 +82,7 @@ export default new Vuex.Store({
   },
   actions: {
     setProducts: ({ commit }, product) => {
-      console.log(product,"ehdhsehdhddhdhdh")
+      console.log(product, "ehdhsehdhddhdhdh")
       commit("setProducts", product)
     },
     removeProduct: ({ commit }, removeIndex) => {
@@ -81,12 +96,12 @@ export default new Vuex.Store({
     editCurrentProduct({ commit }, currentProduct) {
       commit("editCurrentProduct", currentProduct)
     },
-    setUser({ commit },user) {
-      commit("editCurrentProduct",user)
+    setUser({ commit }, user) {
+      commit("setUser", user)
     },
     // saveEditedProduct({ commit }, currentProductId) {
     //   commit("saveEditedProduct", currentProductId)
     // }
   },
-    plugins: [createPersistedState()],
+  plugins: [createPersistedState()],
 });

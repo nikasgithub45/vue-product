@@ -1,4 +1,3 @@
-
 <template>
   <v-container>
     <v-app-bar color="deep-purple accent-4" dark>
@@ -91,70 +90,100 @@
               </v-card>
             </v-dialog>
           </v-row>
+          <p>user:{{ userInfo }}</p>
           <v-tab>products</v-tab>
           <v-tab>orders</v-tab>
           <v-tab>Requests</v-tab>
-          <v-tab>Manage</v-tab>
+          <div class="text-center">
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            color="primary"
+            dark
+            v-bind="attrs"
+            v-on="on"
+          >
+            Dropdown
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item
+            v-for="(item, index) in items"
+            :key="index"
+          >
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </div>
+          <v-btn color="success" @click="$router.push('/login')">Log in</v-btn>
         </v-tabs>
       </template>
     </v-app-bar>
-    <v-snackbar
-        v-model="snackbar"
-        :timeout="timeout"
-      >
-        {{ text }}
-  
-        <template v-slot:action="{ attrs }">
-          <v-btn
-            color="blue"
-            text
-            v-bind="attrs"
-            @click="snackbar = false"
-          >
-            Close
-          </v-btn>
-        </template>
-      </v-snackbar>
+    <v-snackbar v-model="snackbar" :timeout="timeout">
+      {{ text }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-container>
 </template>
 
 <script>
 import { v4 as uuidv4 } from "uuid";
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from "vuex";
 
 const defaultProduct = () => {
-  return  {
-      picture: "",
-      name: "",
-      mpn: "",
-      category: "",
-      manufacturer: "",
-      type: "",
-      available: "",
-      id: null,
-    }
+  return {
+    picture: "",
+    name: "",
+    mpn: "",
+    category: "",
+    manufacturer: "",
+    type: "",
+    available: "",
+    id: null,
+  };
 };
 export default {
   name: "Header",
   data: () => ({
-    idOfproduct:'',
+    items: [
+      { title: this.userInfo },
+      { title: 'Click Me' },
+      { title: 'Click Me' },
+      { title: 'Click Me 2' },
+    ],
+    user: "",
+    idOfproduct: "",
     snackbar: false,
-    text: 'item created succsesfuly',
+    text: "item created succsesfuly",
     timeout: 2000,
     dialog: false,
-    currentProduct: defaultProduct()
+    currentProduct: defaultProduct(),
   }),
   methods: {
-      ...mapActions([
-      'setProducts',
-    ]),
+    ...mapGetters(["userInfo"]),
+    ...mapActions(["setProducts", "setUser"]),
     saveItem() {
       this.snackbar = true;
       this.currentProduct.id = uuidv4();
       // this.$emit("currentProduct", this.currentProduct);
-      this.setProducts(this.currentProduct)
-      this.currentProduct = defaultProduct()
-      this.dialog = false
+      this.setProducts(this.currentProduct);
+      this.currentProduct = defaultProduct();
+      this.dialog = false;
+      console.log(this.userInfo, "wjakakakakaakak");
+    },
+  },
+  computed: {
+    ...mapGetters(["user", ]),
+  },
+  mounted: {
+    displayTest() {
+      console.log(this.userInfo, "wjakakakakaakak");
     },
   },
 };
