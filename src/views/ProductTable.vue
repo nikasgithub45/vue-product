@@ -188,8 +188,6 @@ export default {
     },
     save(id) {
       this.editedItem.id = id
-            console.log( this.editedItem, ' this.editCurrentProduct44444444')
-
       this.editCurrentProduct(this.editedItem);
       this.close();
     },

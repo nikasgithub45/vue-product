@@ -1,8 +1,8 @@
 <template>
     <v-app id="App">
          <router-view></router-view>
+         <router-link to="/login"></router-link>
          <router-link to="/Content"></router-link>
-          <router-link to="/login"></router-link>
         <router-link to="/product-page"></router-link>
     </v-app>
 </template>
@@ -18,6 +18,7 @@ export default {
     dialog: false,
   }),
   methods:{
+    
     // onCurrentProduct(currentProduct){
     //   console.log("crudn")
     //   this.products.push(currentProduct)

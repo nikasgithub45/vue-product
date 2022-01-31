@@ -6,7 +6,7 @@
         <v-layout column>
           <v-row cols="3">
             <v-card width="2800px" height="200px">
-                {{currentProduct}}
+                {{currentProduct.name}}
             </v-card>
             <v-card width="190px" height="200px">
               There should be picture

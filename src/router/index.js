@@ -14,20 +14,31 @@ const routes = [
   {
     path: '/',
     name:'Content',
-    component:Content
+    component:Content,
+    meta:{requiresAuth:true}
   },
   {
     path: '/login',
     name:'login',
-    component:login
+    component:login,
+    
   }
   
 ]
 
 const router = new VueRouter({
   mode: 'history',
-  // base: process.env.BASE_URL,
+  base: process.env.BASE_URL,
   routes
 })
 
+router.beforeEach((to,from,next)=>{
+  if(to.meta.requiresAuth == false){
+     next({
+       name:'Content'
+     })
+  }else{
+    next()
+  }
+})
 export default router

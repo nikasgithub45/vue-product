@@ -11,8 +11,9 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   // namespaced: true,
   state: {
+    failed :true,
     dialog:"",
-    userInfo: [],
+    userInfo:{},
     userInfoRender: [],
     user: null,
     products: [],
@@ -29,8 +30,7 @@ export default new Vuex.Store({
     setUser: (state, user) => {
       state.dialog = false;
       console.log(state.user)
-      state.userInfo.push(user);
-      state.userInfo = state.userInfoRender;
+      state.userInfo = user;
       console.log(state.userInfo)
     //   state.userInfoRender.forEach(function (arrayItem) {
     //      if(arrayItem.name != state.userInfo.nameCheck){
