@@ -1,13 +1,13 @@
 <template>
   <div id="App">
-    
-    <Header  />
-    <ProductTable  />
+    <Header />
+    <ProductTable />
   </div>
 </template>
 <script>
-import Header from "./Header.vue";
-import ProductTable from "./ProductTable.vue";
+import Header from './Header.vue';
+import ProductTable from './ProductTable.vue';
+
 export default {
   components: {
     Header,
@@ -15,7 +15,7 @@ export default {
   },
   data: () => ({
     //
-    openProductPage:false,
+    openProductPage: false,
     dialog: false,
     // products: [],
   }),

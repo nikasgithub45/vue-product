@@ -1,32 +1,57 @@
 <template>
   <v-container>
-    <v-form ref="form" v-model="valid">
-      <v-layout text-center wrap>
-        <v-flex xs12></v-flex>
+    <v-form
+      ref="form"
+      v-model="valid"
+    >
+      <v-layout
+        text-center
+        wrap
+      >
+        <v-flex xs12 />
 
-        <v-flex xs12 mb-4>
-          <h1 class="display-1 font-weight-bold mb-3">Shop vue</h1>
+        <v-flex
+          xs12
+          mb-4
+        >
+          <h1 class="display-1 font-weight-bold mb-3">
+            Shop vue
+          </h1>
         </v-flex>
-        <v-flex offset-md-3 xs6>
-          <v-text-field v-model="currentUser.nameCheck"></v-text-field>
+        <v-flex
+          offset-md-3
+          xs6
+        >
+          <v-text-field v-model="currentUser.nameCheck" />
           <v-text-field
+            v-model="currentUser.passwordCheck"
             autocomplete="current-password"
             label="Enter password"
             :append-icon="value ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append="() => (value = !value)"
             :type="value ? 'password' : 'text'"
             :rules="[rules.password]"
+            @click:append="() => (value = !value)"
             @input="(_) => (userPassword = _)"
-            v-model="currentUser.passwordCheck"
-          ></v-text-field>
+          />
         </v-flex>
         <!-- <v-btn color="success" @click="saveValue()">Click this</v-btn> -->
       </v-layout>
     </v-form>
     <v-row justify="center">
-      <v-dialog v-model="dialog" persistent max-width="600px">
+      <v-dialog
+        v-model="dialog"
+        persistent
+        max-width="600px"
+      >
         <template v-slot:activator="{ on, attrs }">
-          <v-btn color="primary" dark v-bind="attrs" v-on="on"> Join us </v-btn>
+          <v-btn
+            color="primary"
+            dark
+            v-bind="attrs"
+            v-on="on"
+          >
+            Join us
+          </v-btn>
         </template>
         <v-card>
           <v-card-title>
@@ -35,19 +60,27 @@
           <v-card-text>
             <v-container>
               <v-row>
-                <v-col cols="12" sm="6" md="4">
+                <v-col
+                  cols="12"
+                  sm="6"
+                  md="4"
+                >
                   <v-text-field
                     v-model="currentUser.name"
                     label="Legal first name*"
                     required
-                  ></v-text-field>
+                  />
                 </v-col>
-                <v-col cols="12" sm="6" md="4">
+                <v-col
+                  cols="12"
+                  sm="6"
+                  md="4"
+                >
                   <v-text-field
                     v-model="currentUser.lastname"
                     label="Legal last name"
                     hint="example of helper text only on focus"
-                  ></v-text-field>
+                  />
                 </v-col>
                 <!-- <v-col
                   cols="12"
@@ -66,15 +99,15 @@
                     v-model="currentUser.email"
                     label="Email*"
                     required
-                  ></v-text-field>
+                  />
                 </v-col>
                 <v-col cols="12">
                   <v-text-field
+                    v-model="currentUser.password"
                     label="Password*"
                     type="password"
-                    v-model="currentUser.password"
                     required
-                  ></v-text-field>
+                  />
                 </v-col>
                 <!-- <v-col
                   cols="12"
@@ -100,17 +133,34 @@
             </v-container>
           </v-card-text>
           <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="dialog = false">
+            <v-spacer />
+            <v-btn
+              color="blue darken-1"
+              text
+              @click="dialog = false"
+            >
               Close
             </v-btn>
-            <v-btn color="blue darken-1" text @click="saveValue"> Save </v-btn>
+            <v-btn
+              color="blue darken-1"
+              text
+              @click="saveValue"
+            >
+              Save
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
     </v-row>
-    <v-btn color="success" @click="verifyUser">Click this</v-btn>
-    <p v-if="failed">Verification failed</p>
+    <v-btn
+      color="success"
+      @click="verifyUser"
+    >
+      Click this
+    </v-btn>
+    <p v-if="failed">
+      Verification failed
+    </p>
   </v-container>
 </template>
 

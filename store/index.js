@@ -50,7 +50,8 @@ export default new Vuex.Store({
     setCurrentProduct: (state, currentProduct) => {
       state.currentProduct = currentProduct
     },
-    editCurrentProduct: (state, currentProduct) => {
+    
+    editCurrentProduct: (state, currentProduct) => { 
       console.log(currentProduct, 'fgfgfgfgfg')
       const {
         name,
